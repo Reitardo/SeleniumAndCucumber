@@ -1,23 +1,28 @@
 package cucumber;
 
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-import static org.junit.Assert.*;
-import org.openqa.selenium.*;
+import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import java.util.logging.Logger;
 
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class StepDefinitions {
     WebDriver driver = new ChromeDriver();
     int deleteButtonCount;
+    private static Logger log = Logger.getLogger("InfoLogging");
+
 
     @Given ("The Internet herokuApp page is opened")
     public void TheInternetHerokuAppPageIsOpened() {
         driver.get("http://the-internet.herokuapp.com/");
+        log.info("Logged in http://the-internet.herokuapp.com/");
     }
 
     @When("I click on {string} object")
@@ -41,17 +46,23 @@ public class StepDefinitions {
     public void pageShouldBeOpened(String expectedText) {
         String actualText = driver.findElement(By.cssSelector("h3")).getText();
         assertEquals(expectedText, actualText);
+        log.info("Expected: " + expectedText );
+        log.info("actual: " + actualText );
     }
 
     @Then("I should show {string}")
     public void iShouldShow(String expectedText) {
         String actualText = driver.findElement(By.cssSelector("p")).getText();
         assertEquals(expectedText, actualText);
+        log.info("Expected: " + expectedText );
+        log.info("actual: " + actualText );
     }
 
     @Then("Delete object list contains {int} button in list")
     public void deleteObjectListContainsButtonInList(int expectedCount) {
         assertEquals(expectedCount, deleteButtonCount);
+        log.info("Expected: " + expectedCount );
+        log.info("actual: " + deleteButtonCount );
     }
 
     @Then("Delete object is added")
@@ -87,4 +98,20 @@ public class StepDefinitions {
     public void buttonIsRemoved() {
         deleteObjectIsAdded();
     }
+
+    @When("I log in as user {string} with password {string}")
+    public void iLogInAsUserWithPassword(String login, String password) {
+        driver.get("http://"+ login + ":" + password+"@the-internet.herokuapp.com/basic_auth");
+    }
+
+    @Then("User is logged successfully")
+    public void userIsLoggedSuccessfully() {
+        String actualText01 = driver.findElement(By.cssSelector("h3")).getText();
+        String actualText02 = driver.findElement(By.cssSelector("p")).getText();
+        log.info(actualText01);
+        log.info(actualText02);
+        assertEquals("Basic Auth",actualText01);
+        assertEquals("Congratulations! You must have the proper credentials.",actualText02);
+    }
+
 }

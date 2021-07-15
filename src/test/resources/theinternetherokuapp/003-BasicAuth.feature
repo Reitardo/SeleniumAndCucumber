@@ -6,4 +6,3 @@ Feature: Basic auth test
     When I log in as user "admin" with password "admin"
     Then User is logged successfully
     Then Close browser
-    

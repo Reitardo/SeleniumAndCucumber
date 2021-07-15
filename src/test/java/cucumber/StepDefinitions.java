@@ -114,4 +114,14 @@ public class StepDefinitions {
         assertEquals("Congratulations! You must have the proper credentials.",actualText02);
     }
 
+
+    @Then("I return list with broken images")
+    public void iReturnListWithBrokenImages() {
+        for (WebElement image : driver.findElements(By.cssSelector("img"))) {
+            if (image.getAttribute("naturalHeight").equals("0")) {
+                System.out.println(image.getAttribute("outerHTML") + " is broken.");
+            }
+        }
+    }
+
 }

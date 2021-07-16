@@ -4,7 +4,7 @@ Feature: Add and Remove elements
 
   Scenario: Add/Remove Elements - single add
     Given The Internet herokuApp page is opened
-    When I click on "Add/Remove Elements" object
+    When I click on "Add/Remove Elements" link
     Then "Add/Remove Elements" page should be opened
     When I click on Add Element button
     Then Delete object is added
@@ -14,7 +14,7 @@ Feature: Add and Remove elements
 
   Scenario: Add/Remove Elements - single add
     Given The Internet herokuApp page is opened
-    When I click on "Add/Remove Elements" object
+    When I click on "Add/Remove Elements" link
     Then "Add/Remove Elements" page should be opened
     When I click on Add Element button 5 times
     Then Delete object list contains 5 button in list
@@ -22,7 +22,7 @@ Feature: Add and Remove elements
 
   Scenario: Single delete
     Given The Internet herokuApp page is opened
-    When I click on "Add/Remove Elements" object
+    When I click on "Add/Remove Elements" link
     Then "Add/Remove Elements" page should be opened
     When I click on Add Element button
     Then Delete object is added

@@ -3,10 +3,14 @@ package cucumber;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+import java.awt.*;
 import java.util.logging.Logger;
 
 import java.util.List;
@@ -17,7 +21,7 @@ public class StepDefinitions {
     WebDriver driver = new ChromeDriver();
     int deleteButtonCount;
     private static Logger log = Logger.getLogger("InfoLogging");
-
+    private final String correctMessageInAlert = "You selected a context menu";
 
     @Given ("The Internet herokuApp page is opened")
     public void TheInternetHerokuAppPageIsOpened() {
@@ -25,7 +29,7 @@ public class StepDefinitions {
         log.info("Logged in http://the-internet.herokuapp.com/");
     }
 
-    @When("I click on {string} object")
+    @When("I click on {string} link")
     public void clickOnLink (String link) {
         WebElement webElementLink = driver.findElement(By.linkText(link));
         webElementLink.click();
@@ -122,6 +126,28 @@ public class StepDefinitions {
                 System.out.println(image.getAttribute("outerHTML") + " is broken.");
             }
         }
+    }
+
+    @Then("I get actual checkbox statuses")
+    public void iGetActualCheckboxStatuses() {
+        List<WebElement> checkboxes = driver.findElements(By.cssSelector("input[type=checkbox]"));
+        for (WebElement checkbox : checkboxes) {
+            System.out.println("The checkbox is selection state is - " + checkbox.isSelected());
+        }
+    }
+
+    @When("I right click on context menu")
+    public void iRightClickOnContextMenu() {
+        Actions actions = new Actions(driver);
+        WebElement sector = driver.findElement(By.id("hot-spot"));
+        actions.contextClick(sector).perform();
+    }
+
+    @Then("i get javascript alert")
+    public boolean iGetJavascriptAlert() throws AWTException, InterruptedException {
+        Alert alert = driver.switchTo().alert();
+        log.info("Alert text: " + alert.getText());
+        return alert.getText().equals(correctMessageInAlert);
     }
 
 }

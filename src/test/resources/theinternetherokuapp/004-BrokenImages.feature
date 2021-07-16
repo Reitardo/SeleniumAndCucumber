@@ -4,7 +4,7 @@ Feature: Search for broken images
 
   Scenario: Search for broken images
     Given The Internet herokuApp page is opened
-    When I click on "Broken Images" object
+    When I click on "Broken Images" link
     Then "Broken Images" page should be opened
-    Then I return list with broken images
-    Then Close browser
+    And I return list with broken images
+    And Close browser
